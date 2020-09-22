@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-const db = require('../config/DBconfig');
+const db = require('../config/DBConfig');
 
 
 // creating a Video table in MYSQL data base with the below entries

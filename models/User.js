@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
-const db = require('../config/DBconfig');
-const sequelize = require('../config/DBconfig');
+const db = require('../config/DBConfig');
+//const sequelize = require('../config/DBconfig');
 
 
 // creating a user(s) table in MYSQL data base
