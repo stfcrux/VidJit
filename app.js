@@ -24,6 +24,9 @@ const mainRoute = require('./routes/main');
 const userRoute = require('./routes/user');
 const videoRoute = require('./routes/video');
 
+// bring in handle bars helpers here
+const {formatDate,radioCheck} = require('./helpers/hbs');
+
 const vidjotDB = require('./config/DBConnection');
 
 
@@ -55,6 +58,10 @@ authenticate.localStrategy(passport);
 *
 * */
 app.engine('handlebars', exphbs({
+	helpers:{
+		formatDate:formatDate,   //ADD formatDate HERE, now we can it in the handlebars files
+		radioCheck: radioCheck
+	},
 	defaultLayout: 'main' // Specify default template views/layout/main.handlebar 
 }));
 app.set('view engine', 'handlebars');
