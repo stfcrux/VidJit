@@ -4,6 +4,30 @@ const moment = require('moment');
 const Video = require('../models/Video');
 const ensureAuthenticated = require('../helpers/auth');
 const alertMessage = require('../helpers/messenger');
+const fs = require('fs');
+const upload = require('../helpers/imageUpload');
+
+
+// Upload poster
+router.post('/upload', ensureAuthenticated, (req, res) => {
+    // Creates user id directory for upload if not exist
+    if (!fs.existsSync('./public/uploads/' + req.user.id)){  // checking if the folder exists, else make the directory based on user ID
+        fs.mkdirSync('./public/uploads/' + req.user.id);
+    }
+    
+    upload(req, res, (err) => {
+        if (err) {
+            res.json({file: '/img/no-image.jpg', err: err});
+        } else {
+            if (req.file === undefined) {
+                res.json({file: '/img/no-image.jpg', err: err});
+            } else {
+                res.json({file: `/uploads/${req.user.id}/${req.file.filename}`});
+            }
+        }
+    });
+})
+
 
 //list videos belonging to current logged in user
 router.get('/listVideos',ensureAuthenticated, (req, res)=>{
@@ -73,7 +97,9 @@ router.put('/saveEditedVideo/:id',ensureAuthenticated, (req,res)=>{
 	let dateRelease = moment(req.body.dateRelease, 'DD/MM/YYYY');
 	let language = req.body.language.toString();
 	let subtitles = req.body.subtitles === undefined ? '' : req.body.subtitles.toString();
-	let classification = req.body.classification;
+    let classification = req.body.classification;
+    let posterURL = req.body.posterURL;
+    let starring = req.body.starring;
     
 	//set variables here to save to video table
 	Video.update({
@@ -82,7 +108,10 @@ router.put('/saveEditedVideo/:id',ensureAuthenticated, (req,res)=>{
         dateRelease,
         language,
         subtitles,
-        classification
+        classification,
+        posterURL,
+        starring
+        
     }, {
         where: {
             id:req.params.id
@@ -110,6 +139,8 @@ router.post('/addVideo', ensureAuthenticated, (req, res)=>{
     let subtitles = req.body.subtitles === undefined?'':req.body.subtitles.toString(); // === means to check if the type
     let classification = req.body.classification;
     let userId = req.user.id;
+    let posterURL = req.body.posterURL;
+    let starring = req.body.starring;
 
     // Multi-value components return array of strings or undefined 
     // store the video into the data base
@@ -120,6 +151,8 @@ router.post('/addVideo', ensureAuthenticated, (req, res)=>{
         language,
         subtitles,
         dateRelease,
+        posterURL,
+        starring,
         userId
     })
     // if created successfully then
