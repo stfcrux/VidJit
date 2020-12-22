@@ -25,6 +25,13 @@ const Video = db.define('video', {
     dateRelease:{
         type: Sequelize.DATE
     },
+    
+    posterURL:{
+        type: Sequelize.STRING
+    },
+    starring:{
+        type: Sequelize.STRING
+    },
 
 
 
