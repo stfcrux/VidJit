@@ -15,3 +15,8 @@ MySql is used as a data base, thus there is a need to initialize a schema first
 
 
 ![image](https://user-images.githubusercontent.com/39015652/102856996-9c052a00-4462-11eb-96a2-de47cd490a7a.png)
+
+
+
+
+![image](https://user-images.githubusercontent.com/39015652/102859592-2059ac00-4467-11eb-957a-900e3993bbb6.png)
